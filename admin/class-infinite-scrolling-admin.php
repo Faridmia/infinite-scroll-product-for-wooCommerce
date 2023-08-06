@@ -1,5 +1,5 @@
 <?php
-class Infinite_Ispfw_Woo_Admin
+class Ispfw_Infinite_Ispfw_Woo_Admin
 {
 
     private $plugin_name;
@@ -13,13 +13,13 @@ class Infinite_Ispfw_Woo_Admin
     public function __construct($plugin_name, $version)
     {
         $this->infinite_sp_woo_admin_setting_page_callback();
-        $this->infinite_sp_woo_setting_api = new Infinite_Ispfw_Woo_Setting_Option();
+        $this->infinite_sp_woo_setting_api = new Ispfw_Infinite_Woo_Setting_Option();
         $this->plugin_name = $plugin_name;
 
         $this->version = $version;
 
 
-        add_action('admin_init', array($this, 'infinite_scroll_setting_admin_init'));
+        add_action('admin_init', array($this, 'Ispfw_infinite_scroll_setting_admin_init'));
         add_action('admin_menu', array($this, 'infinite_sp_woo_add_menu'));
     }
 
@@ -33,15 +33,15 @@ class Infinite_Ispfw_Woo_Admin
         include_once 'partials/infinite-scrolling-woo-admin-display.php';
     }
 
-    public function infinite_scroll_setting_admin_init()
+    public function Ispfw_infinite_scroll_setting_admin_init()
     {
 
         //set the settings
-        $this->infinite_sp_woo_setting_api->set_sections($this->get_infinite_sp_woo_settings_sections());
-        $this->infinite_sp_woo_setting_api->set_fields($this->get_infinite_sp_woo_settings_fields());
+        $this->infinite_sp_woo_setting_api->ispfw_set_sections($this->get_infinite_sp_woo_settings_sections());
+        $this->infinite_sp_woo_setting_api->ispfw_set_fields($this->get_infinite_sp_woo_settings_fields());
 
         //initialize settings
-        $this->infinite_sp_woo_setting_api->admin_init();
+        $this->infinite_sp_woo_setting_api->ispfw_admin_init();
     }
 
     public function get_infinite_sp_woo_settings_sections()
@@ -92,7 +92,7 @@ class Infinite_Ispfw_Woo_Admin
                 array(
                     'name'              => 'infinite_sp_content_selector',
                     'label'             => __('Content Selector', 'infinite-scroll-woo'),
-                    'default'           => __('ul.products', 'infinite-scroll-woo'),
+                    'default'           => __('ul.products-block-post-template', 'infinite-scroll-woo'),
                     'type'              => 'text',
                     'size'              => '15px',
                     'sanitize_callback' => 'sanitize_text_field',
@@ -108,7 +108,7 @@ class Infinite_Ispfw_Woo_Admin
                 array(
                     'name'              => 'infinite_sp_woo_prev_selector',
                     'label'             => __('Prev Selector', 'infinite-scroll-woo'),
-                    'default'           => __('.woocommerce-pagination', 'infinite-scroll-woo'),
+                    'default'           => __('.wp-block-query-pagination', 'infinite-scroll-woo'),
                     'type'              => 'text',
                     'size'              => '15px',
                     'sanitize_callback' => 'sanitize_text_field',
@@ -116,7 +116,7 @@ class Infinite_Ispfw_Woo_Admin
                 array(
                     'name'              => 'infinite_sp_woo_next_selector',
                     'label'             => __('Next Selector', 'infinite-scroll-woo'),
-                    'default'           => __('.woocommerce-pagination a.next', 'infinite-scroll-woo'),
+                    'default'           => __('.wp-block-query-pagination .wp-block-query-pagination-next', 'infinite-scroll-woo'),
                     'type'              => 'text',
                     'size'              => '15px',
                     'sanitize_callback' => 'sanitize_text_field',
@@ -317,8 +317,8 @@ class Infinite_Ispfw_Woo_Admin
     { ?>
         <div class="cdt-wrap">
             <?php
-            $this->infinite_sp_woo_setting_api->infinite_sp_woo_show_navigation();
-            $this->infinite_sp_woo_setting_api->infinite_scrolling_show_forms();
+            $this->infinite_sp_woo_setting_api->ispfw_infinite_sp_woo_show_navigation();
+            $this->infinite_sp_woo_setting_api->ispfw_infinite_scrolling_show_forms();
             ?>
 
         </div>

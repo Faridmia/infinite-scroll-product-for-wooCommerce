@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -19,8 +20,8 @@
  * @subpackage infinite_ispfw_woo/admin
  * @author     faridmia
  */
-if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
-    class Infinite_Ispfw_Woo_Setting_Option
+if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
+    class Ispfw_Infinite_Woo_Setting_Option
     {
 
         /**
@@ -42,7 +43,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @param array   $sections setting sections array
          */
-        public function set_sections($sections)
+        public function ispfw_set_sections($sections)
         {
             $this->infinite_sp_woo_settings_sections = $sections;
 
@@ -54,7 +55,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @param array   $section
          */
-        public function add_section($section)
+        public function ispfw_add_section($section)
         {
             $this->infinite_sp_woo_settings_sections[] = $section;
             return $this;
@@ -65,13 +66,13 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @param array   $fields settings fields array
          */
-        public function set_fields($fields)
+        public function ispfw_set_fields($fields)
         {
             $this->infinite_sp_woo_settings_fields = $fields;
             return $this;
         }
 
-        public function add_field($section, $field)
+        public function ispfw_add_field($section, $field)
         {
             $defaults = array(
                 'name'  => '',
@@ -91,7 +92,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * Usually this should be called at `admin_init` hook.
          */
-        public function admin_init()
+        public function ispfw_admin_init()
         {
             //register settings sections
 
@@ -148,7 +149,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
             }
             // creates our settings in the options table
             foreach ($this->infinite_sp_woo_settings_sections as $section) {
-                register_setting($section['id'], $section['id'], array($this, 'sanitize_options'));
+                register_setting($section['id'], $section['id'], array($this, 'ispfw_sanitize_options'));
             }
         }
 
@@ -157,7 +158,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @param array   $args settings field args
          */
-        public function get_field_description($args)
+        public function ispfw_get_field_description($args)
         {
 
             if (!empty($args['desc'])) {
@@ -183,7 +184,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
             $placeholder = empty($args['placeholder']) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
             $html = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder);
-            $html .= $this->get_field_description($args);
+            $html .= $this->ispfw_get_field_description($args);
 
             printf("%s", $html);
         }
@@ -223,7 +224,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
         }
 
         $html .= sprintf( '</select>' );
-        $html .= $this->get_field_description( $args );
+        $html .= $this->ispfw_get_field_description( $args );
 
         printf("%s", $html);
     }
@@ -234,9 +235,9 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @param array   $args settings field args
          */
-        public function callback_url($args)
+        public function ispfw_callback_url($args)
         {
-            $this->callback_text($args);
+            $this->ispfw_callback_text($args);
         }
 
 
@@ -246,9 +247,9 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          * @param array   $args settings field args
          * @return string
          */
-        public function callback_html($args)
+        public function ispfw_callback_html($args)
         {
-            echo wp_kses_post($this->get_field_description($args));
+            echo wp_kses_post($this->ispfw_get_field_description($args));
         }
 
         /**
@@ -263,7 +264,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
             $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
 
             $html = sprintf('<input type="text" class="%1$s-text wp-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, $args['std']);
-            $html .= $this->get_field_description($args);
+            $html .= $this->ispfw_get_field_description($args);
 
             printf("%s", $html);
         }
@@ -273,7 +274,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @param array   $args settings field args
          */
-        public function callback_pages($args)
+        public function ispfw_callback_pages($args)
         {
 
             $dropdown_args = array(
@@ -291,14 +292,14 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @return mixed
          */
-        public function sanitize_options($options)
+        public function ispfw_sanitize_options($options)
         {
             if (!$options) {
                 return $options;
             }
 
             foreach ($options as $option_slug => $option_value) {
-                $sanitize_callback = $this->get_sanitize_callback($option_slug);
+                $sanitize_callback = $this->ispfw_get_sanitize_callback($option_slug);
 
                 // If callback is set, call it
                 if ($sanitize_callback) {
@@ -317,7 +318,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * @return mixed string or bool false
          */
-        public function get_sanitize_callback($slug = '')
+        public function ispfw_get_sanitize_callback($slug = '')
         {
             if (empty($slug)) {
                 return false;
@@ -357,30 +358,30 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
         }
 
         /**
-     * Displays a file upload field for a settings field
-     *
-     * @param array   $args settings field args
-     */
-    function callback_file( $args ) {
+         * Displays a file upload field for a settings field
+         *
+         * @param array   $args settings field args
+        */
+        function callback_file( $args ) {
 
-        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-        $size  = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
-        $id    = $args['section']  . '[' . $args['id'] . ']';
-        $label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File' );
+            $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+            $size  = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+            $id    = $args['section']  . '[' . $args['id'] . ']';
+            $label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File' );
 
-        $html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
-        $html  .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
-        $html  .= $this->get_field_description( $args );
+            $html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
+            $html  .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
+            $html  .= $this->ispfw_get_field_description( $args );
 
-        printf("%s", $html);
-    }
+            printf("%s", $html);
+        }
 
         /**
          * Show navigations as tab
          *
          * Shows all the settings section labels as tab
          */
-        public function infinite_sp_woo_show_navigation()
+        public function ispfw_infinite_sp_woo_show_navigation()
         {
             $html = '<h2 class="nav-tab-wrapper">';
 
@@ -402,7 +403,7 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
          *
          * This function displays every sections in a different form
          */
-        public function infinite_scrolling_show_forms()
+        public function ispfw_infinite_scrolling_show_forms()
         {
 ?>
             <div class="metabox-holder lasf-woo-metabox-holder">
@@ -426,14 +427,14 @@ if (!class_exists('Infinite_Ispfw_Woo_Setting_Option')) :
                 <?php } ?>
             </div>
         <?php
-            $this->script();
+            $this->ispfw_script();
         }
         /**
          * Tabbable JavaScript codes & Initiate Color Picker
          *
          * This code uses localstorage for displaying active tabs
          */
-        public function script()
+        public function ispfw_script()
         {
         ?>
             <script>

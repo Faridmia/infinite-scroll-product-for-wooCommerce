@@ -20,7 +20,7 @@
  * @subpackage Infinite_Ispfw_Woo/includes
  * @author     Farid Mia <mdfarid7830@gmail.com>
  */
-class Infinite_Ispfw_Woo_Loader {
+class Ispfw_Infinite_Woo_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

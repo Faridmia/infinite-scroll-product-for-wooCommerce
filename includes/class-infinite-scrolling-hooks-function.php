@@ -1,16 +1,17 @@
 <?php
-if (!class_exists('woocommerce')) {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly  
+if (!class_exists('WooCommerce')) {
     return false;
 }
 
-class Infinite_Scrolling_Woo_Hooks_Function
+class Ispfw_Infinite_Woo_Hooks_Function
 {
 
     public function __construct()
     {
     }
 
-    public function advanced_add_custom_css_callback()
+    public function Ispfw_add_custom_css_callback()
     {
         global $advanced_option;
         

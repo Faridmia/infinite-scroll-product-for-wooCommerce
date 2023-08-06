@@ -19,7 +19,7 @@
  * @subpackage Infinite_Ispfw_Woo/includes
  * @author     Farid Mia <mdfarid7830@gmail.com>
  */
-class Infinite_Ispfw_Woo_Deactivator {
+class Ispfw_Woo_Deactivator {
 
 	/**
 	 * deactivate function

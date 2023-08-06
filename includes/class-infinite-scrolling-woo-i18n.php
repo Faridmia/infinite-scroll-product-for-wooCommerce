@@ -23,7 +23,7 @@
  * @subpackage Infinite_Ispfw_Woo/includes
  * @author     Farid Mia <mdfarid7830@gmail.com>
  */
-class Infinite_Ispfw_Woo_i18n {
+class Ispfw_Infinite_Woo_i18n {
 
 	/**
 	 * Load the plugin text domain for translation.
@@ -35,7 +35,7 @@ class Infinite_Ispfw_Woo_i18n {
 		load_plugin_textdomain(
 			'infinite-scroll-woo',
 			false,
-			INFINITE_ISPFW_WOO_BASENAME . '/languages/'
+			ISPFW_WOO_BASENAME . '/languages/'
 		);
 
 	}

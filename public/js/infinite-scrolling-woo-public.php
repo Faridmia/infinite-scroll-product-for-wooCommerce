@@ -19,7 +19,7 @@
  * @subpackage Infinite_Ispfw_Woo/public
  * @author     Farid Mia <mdfarid7830@gmail.com>
  */
-class Infinite_Ispfw_Woo_Public {
+class Ispfw_Infinite_Woo_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -66,16 +66,15 @@ class Infinite_Ispfw_Woo_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Infinite_Ispfw_Woo_Loader as all of the hooks are defined
+		 * defined in Ispfw_Infinite_Woo_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Infinite_Ispfw_Woo_Loader will then create the relationship
+		 * The Ispfw_Infinite_Woo_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		
-        wp_enqueue_style( $this->infinite_sp_woo, INFINITE_ISPFW_WOO_PUBLIC_URL . 'css/advanced-infinite-scroll-woo-public.css', array(), $this->version, 'all' );
+        wp_enqueue_style( $this->infinite_sp_woo, ISPFW_WOO_PUBLIC_URL . 'css/advanced-infinite-scroll-woo-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -92,16 +91,13 @@ class Infinite_Ispfw_Woo_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Infinite_Ispfw_Woo_Loader as all of the hooks are defined
+		 * defined in Ispfw_Infinite_Woo_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Infinite_Ispfw_Woo_Loader will then create the relationship
+		 * The Ispfw_Infinite_Woo_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 	}
-
-	
 
 }

@@ -26,7 +26,7 @@
  * @subpackage Infinite_Ispfw_Woo/includes
  * @author     Farid Mia <mdfarid7830@gmail.com>
  */
-class Infinite_Ispfw_Woo {
+class Ispfw_Woo_Infinite {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -34,7 +34,7 @@ class Infinite_Ispfw_Woo {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Infinite_Ispfw_Woo_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Ispfw_Infinite_Woo_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -69,8 +69,8 @@ class Infinite_Ispfw_Woo {
 	 */
 	public function __construct() {
 
-		if ( defined( 'INFINITE_ISPFW_WOO_VERSION' ) ) {
-			$this->version = INFINITE_ISPFW_WOO_VERSION;
+		if ( defined( 'ISPFW_WOO_VERSION' ) ) {
+			$this->version = ISPFW_WOO_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -91,10 +91,10 @@ class Infinite_Ispfw_Woo {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Infinite_Ispfw_Woo_Loader. Orchestrates the hooks of the plugin.
-	 * - Infinite_Ispfw_Woo_i18n. Defines internationalization functionality.
-	 * - Infinite_Ispfw_Woo_Admin. Defines all hooks for the admin area.
-	 * - Infinite_Ispfw_Woo_Public. Defines all hooks for the public side of the site.
+	 * - Ispfw_Infinite_Woo_Loader. Orchestrates the hooks of the plugin.
+	 * - Ispfw_Infinite_Woo_i18n. Defines internationalization functionality.
+	 * - Ispfw_Infinite_Ispfw_Woo_Admin. Defines all hooks for the admin area.
+	 * - Ispfw_Infinite_Woo_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -108,38 +108,38 @@ class Infinite_Ispfw_Woo {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once INFINITE_ISPFW_WOO_INCLUDES . 'class-infinite-scrolling-woo-loader.php';
+		require_once ISPFW_WOO_INCLUDES . 'class-infinite-scrolling-woo-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once INFINITE_ISPFW_WOO_INCLUDES . 'class-infinite-scrolling-woo-i18n.php';
+		require_once ISPFW_WOO_INCLUDES . 'class-infinite-scrolling-woo-i18n.php';
 
-		require_once INFINITE_ISPFW_WOO_INCLUDES . 'class-infinite-scrolling-hooks-function.php';
+		require_once ISPFW_WOO_INCLUDES . 'class-infinite-scrolling-hooks-function.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once INFINITE_ISPFW_WOO_PATH . 'admin/class-infinite-scrolling-admin.php';
+		require_once ISPFW_WOO_PATH . 'admin/class-infinite-scrolling-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once INFINITE_ISPFW_WOO_PATH . 'public/class-infinite-scrolling-woo-public.php';
+		require_once ISPFW_WOO_PATH . 'public/class-infinite-scrolling-woo-public.php';
 
-		$this->loader = new Infinite_Ispfw_Woo_Loader();
+		$this->loader = new Ispfw_Infinite_Woo_Loader();
 
-		$hooks_function = new Infinite_Scrolling_Woo_Hooks_Function();
-		$this->loader->add_action('wp_head', $hooks_function, 'advanced_add_custom_css_callback');
+		$hooks_function = new Ispfw_Infinite_Woo_Hooks_Function();
+		$this->loader->add_action('wp_head', $hooks_function, 'Ispfw_add_custom_css_callback');
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Infinite_Ispfw_Woo_i18n class in order to set the domain and to register the hook
+	 * Uses the Ispfw_Infinite_Woo_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -147,7 +147,7 @@ class Infinite_Ispfw_Woo {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Infinite_Ispfw_Woo_i18n();
+		$plugin_i18n = new Ispfw_Infinite_Woo_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -162,7 +162,7 @@ class Infinite_Ispfw_Woo {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Infinite_Ispfw_Woo_Admin( $this->get_infinite_sp_woo(), $this->get_version() );
+		$plugin_admin = new Ispfw_Infinite_Ispfw_Woo_Admin( $this->get_infinite_sp_woo(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'infinite_sp_woo_enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'infinite_sp_woo_enqueue_scripts' );
@@ -183,7 +183,7 @@ class Infinite_Ispfw_Woo {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Infinite_Ispfw_Woo_Public( $this->get_infinite_sp_woo(), $this->get_version() );
+		$plugin_public = new Ispfw_Infinite_Woo_Public( $this->get_infinite_sp_woo(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -214,7 +214,7 @@ class Infinite_Ispfw_Woo {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Infinite_Ispfw_Woo_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Ispfw_Infinite_Woo_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

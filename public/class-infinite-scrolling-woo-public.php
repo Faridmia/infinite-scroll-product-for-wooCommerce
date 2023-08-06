@@ -20,7 +20,7 @@
  * @subpackage Infinite_Ispfw_Woo/public
  * @author     Farid Mia <mdfarid7830@gmail.com>
  */
-class Infinite_Ispfw_Woo_Public
+class Ispfw_Infinite_Woo_Public
 {
 
 	/**
@@ -56,11 +56,10 @@ class Infinite_Ispfw_Woo_Public
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		add_filter('loop_shop_columns', [$this,'Ispfw_infinite_products_loop_columns'], 99);
 
-		add_action("wp_footer", [$this, "infinite_public_loadmore_js"]);
-		add_filter('loop_shop_columns', [$this,'infinite_products_loop_columns'], 99);
-		$setting = $this->infinite_scroll_setting();
-		$setting2 = $this->infinite_scroll_advanced_setting();
+		$setting = $this->Ispfw_infinite_scroll_setting();
+		$setting2 = $this->Ispfw_infinite_scroll_advanced_setting();
 
 		global $advanced_option, $general_option;
 		$general_option = $setting;
@@ -80,8 +79,6 @@ class Infinite_Ispfw_Woo_Public
 
 		return [$general_option, $advanced_option];
 
-
-		// die;
 	}
 
 	/**
@@ -96,32 +93,25 @@ class Infinite_Ispfw_Woo_Public
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Infinite_Ispfw_Woo_Loader as all of the hooks are defined
+		 * defined in Ispfw_Infinite_Woo_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Infinite_Ispfw_Woo_Loader will then create the relationship
+		 * The Ispfw_Infinite_Woo_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, INFINITE_ISPFW_WOO_PUBLIC_URL . 'css/infinite-scrolling-woo-public.css', array(), $this->version, 'all');
+		wp_enqueue_style($this->plugin_name, ISPFW_WOO_PUBLIC_URL . 'css/infinite-scrolling-woo-public.css', array(), $this->version, 'all');
 	}
 
-	public function infinite_public_loadmore_js()
-	{
-		$general_option = $this->infinite_scroll_setting();
-		$advanced_option = $this->infinite_scroll_advanced_setting();
 
-		require INFINITE_ISPFW_WOO_PATH . '/public/js/infinite-scrolling-woo-public.js.php';
-	}
-
-	public function infinite_scroll_setting()
+	public function Ispfw_infinite_scroll_setting()
 	{
 		$settings = get_option('infinite_sp_woo_inf_basics');
 		return $settings;
 	}
 
-	public function infinite_scroll_advanced_setting()
+	public function Ispfw_infinite_scroll_advanced_setting()
 	{
 		$settings = get_option('infinite_sp_woo_inf_color');
 		return $settings;
@@ -134,13 +124,23 @@ class Infinite_Ispfw_Woo_Public
 	 */
 	public function enqueue_scripts()
 	{
+		$general_option = $this->Ispfw_infinite_scroll_setting();
+		$advanced_option = $this->Ispfw_infinite_scroll_advanced_setting();
+
+		wp_enqueue_script( $this->plugin_name, ISPFW_WOO_PUBLIC_URL . 'js/infinite-scrolling-woo-public.js', array( 'jquery' ), $this->version, false );
+        wp_localize_script($this->plugin_name, 'ispfw_option_data', array(
+            "general_option"=> $general_option,
+            "advanced_option"=> $advanced_option,
+            )
+        );
+		
 
 	}
 
 	/**
 	 * Override theme default specification for product # per row
 	 */
-	public function infinite_products_loop_columns() {
+	public function Ispfw_infinite_products_loop_columns() {
 		global $general_option;
 		$products_per_column = '';
 		if(isset($general_option['infinite_isp_per_row_products'])) {
