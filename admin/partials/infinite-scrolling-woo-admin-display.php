@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly 
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -183,51 +183,93 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
             $type        = isset($args['type']) ? $args['type'] : 'text';
             $placeholder = empty($args['placeholder']) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
-            $html = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder);
+            $html = sprintf(
+                '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>',
+                esc_attr($type),
+                esc_attr($size),
+                esc_attr($args['section']),
+                esc_attr($args['id']),
+                esc_attr($value),
+                esc_attr($placeholder) // Escape $placeholder for consistency
+            );
+
             $html .= $this->ispfw_get_field_description($args);
 
-            printf("%s", $html);
+            echo wp_kses($html, 'ispfw_kses');
         }
 
         /**
-     * Displays a checkbox for a settings field
-     *
-     * @param array   $args settings field args
-     */
-    function callback_checkbox( $args ) {
+         * Displays a checkbox for a settings field
+         *
+         * @param array   $args settings field args
+         */
+        function callback_checkbox($args)
+        {
 
-        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
+            $value = esc_attr($this->get_option($args['id'], $args['section'], $args['std']));
 
-        $html  = '<fieldset>';
-        $html  .= sprintf( '<label for="wpuf-%1$s[%2$s]">', $args['section'], $args['id'] );
-        $html  .= sprintf( '<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id'] );
-        $html  .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked( $value, 'on', false ) );
-        $html  .= sprintf( '%1$s</label>', $args['desc'] );
-        $html  .= '</fieldset>';
+            $html  = '<fieldset>';
+            $html = sprintf(
+                '<label for="wpuf-%1$s[%2$s]">',
+                esc_attr($args['section']),
+                esc_attr($args['id'])
+            );
 
-        printf("%s", $html);
-    }
+            $html .= sprintf(
+                '<input type="hidden" name="%1$s[%2$s]" value="off" />',
+                esc_attr($args['section']),
+                esc_attr($args['id'])
+            );
 
-     /**
-     * Displays a selectbox for a settings field
-     *
-     * @param array   $args settings field args
-     */
-    function callback_select( $args ) {
+            $html .= sprintf(
+                '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />',
+                esc_attr($args['section']),
+                esc_attr($args['id']),
+                checked($value, 'on', false)
+            );
 
-        $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-        $size  = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
-        $html  = sprintf( '<select class="%1$s" name="%2$s[%3$s]" id="%2$s[%3$s]">', $size, $args['section'], $args['id'] );
+            $html .= sprintf(
+                '%1$s</label>',
+                esc_html($args['desc']) // Escape $args['desc'] for safe display
+            );
 
-        foreach ( $args['options'] as $key => $label ) {
-            $html .= sprintf( '<option value="%s"%s>%s</option>', $key, selected( $value, $key, false ), $label );
+            $html .= '</fieldset>';
+
+            echo wp_kses($html, 'ispfw_kses');
         }
 
-        $html .= sprintf( '</select>' );
-        $html .= $this->ispfw_get_field_description( $args );
+        /**
+         * Displays a selectbox for a settings field
+         *
+         * @param array   $args settings field args
+         */
+        function callback_select($args)
+        {
 
-        printf("%s", $html);
-    }
+            $value = esc_attr($this->get_option($args['id'], $args['section'], $args['std']));
+            $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+
+            $html = sprintf(
+                '<select class="%1$s" name="%2$s[%3$s]" id="%2$s[%3$s]">',
+                esc_attr($size),
+                esc_attr($args['section']),
+                esc_attr($args['id'])
+            );
+
+            foreach ($args['options'] as $key => $label) {
+                $html .= sprintf(
+                    '<option value="%s"%s>%s</option>',
+                    esc_attr($key),
+                    selected($value, $key, false),
+                    esc_html($label) // Escape $label for safe display
+                );
+            }
+
+            $html .= '</select>';
+            $html .= $this->ispfw_get_field_description($args);
+
+            echo wp_kses($html, 'ispfw_kses');
+        }
 
 
         /**
@@ -263,10 +305,18 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
             $value = esc_attr($this->get_option($args['id'], $args['section'], $args['std']));
             $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
 
-            $html = sprintf('<input type="text" class="%1$s-text wp-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, $args['std']);
+            $html = sprintf(
+                '<input type="text" class="%1$s-text wp-color-picker-field" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />',
+                esc_attr($size),
+                esc_attr($args['section']),
+                esc_attr($args['id']),
+                esc_attr($value),
+                esc_attr($args['std'])
+            );
+
             $html .= $this->ispfw_get_field_description($args);
 
-            printf("%s", $html);
+            echo wp_kses($html, 'ispfw_kses');
         }
 
         /**
@@ -284,7 +334,7 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
                 'echo'     => 0,
             );
             $html = wp_dropdown_pages($dropdown_args);
-            printf("%s", $html);
+            echo wp_kses($html, 'ispfw_kses');
         }
 
         /**
@@ -361,19 +411,31 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
          * Displays a file upload field for a settings field
          *
          * @param array   $args settings field args
-        */
-        function callback_file( $args ) {
+         */
+        function callback_file($args)
+        {
 
-            $value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
-            $size  = isset( $args['size'] ) && !is_null( $args['size'] ) ? $args['size'] : 'regular';
+            $value = esc_attr($this->get_option($args['id'], $args['section'], $args['std']));
+            $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
             $id    = $args['section']  . '[' . $args['id'] . ']';
-            $label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File' );
+            $label = isset($args['options']['button_label']) ? $args['options']['button_label'] : __('Choose File');
 
-            $html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
-            $html  .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
-            $html  .= $this->ispfw_get_field_description( $args );
+            $html  = sprintf(
+                '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>',
+                esc_attr($size),
+                esc_attr($args['section']),
+                esc_attr($args['id']),
+                esc_attr($value)
+            );
 
-            printf("%s", $html);
+            $html .= sprintf(
+                '<input type="button" class="button wpsa-browse" value="%s" />',
+                esc_attr($label) // Escape the button label
+            );
+
+            $html .= $this->ispfw_get_field_description($args);
+
+            echo wp_kses($html, 'ispfw_kses');
         }
 
         /**
@@ -395,7 +457,7 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
 
             $html .= '</h2>';
 
-            printf("%s", $html);
+            echo wp_kses_post($html);
         }
 
         /**
@@ -407,8 +469,8 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
         {
 ?>
             <div class="metabox-holder lasf-woo-metabox-holder">
-                <?php foreach ($this->infinite_sp_woo_settings_sections as $form) { 
-                    ?>
+                <?php foreach ($this->infinite_sp_woo_settings_sections as $form) {
+                ?>
                     <div id="<?php echo esc_attr($form['id']); ?>" class="group lasf-woo">
                         <form method="post" action="options.php">
                             <?php
@@ -514,7 +576,7 @@ if (!class_exists('Ispfw_Infinite_Woo_Setting_Option')) :
                     });
                 });
             </script>
-            <?php
+<?php
         }
     }
 
