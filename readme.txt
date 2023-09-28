@@ -2,7 +2,7 @@
 Contributors: faridmia
 Tags: infinite scroll,load more,ajax pagination,woocommerce infinite scroll,pagination
 Requires at least: 6.1
-Tested up to: 6.2
+Tested up to: 6.3
 Stable tag: 1.0.0
 Requires PHP: 7.3
 Version: 1.0.0
