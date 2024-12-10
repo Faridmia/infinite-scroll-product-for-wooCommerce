@@ -4,7 +4,7 @@
  * Plugin Name:       Infinite Scroll Product For WooCommerce
  * Plugin URI:        https://github.com/Faridmia/infinite-scroll-product-for-woocommerce
  * Description:       The Infinite Scroll Product For WooCommerce is a powerful tool designed to enhance the browsing experience and improve the performance of online stores built with WooCommerce. It provides seamless and dynamic scrolling functionality, allowing customers to browse through product listings without the need for traditional pagination.
- * Version:           1.0.0
+ * Version:           1.0.3
  * Author:            faridmia
  * Author URI:        https://profiles.wordpress.org/faridmia/
  * License:           GPL-2.0+

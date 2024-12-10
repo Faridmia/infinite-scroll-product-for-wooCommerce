@@ -58,6 +58,7 @@ class Ispfw_Infinite_Woo_Public
 
 		add_filter('loop_shop_columns', [$this,'Ispfw_infinite_products_loop_columns'], 99);
 
+
 		$setting = $this->Ispfw_infinite_scroll_setting();
 		$setting2 = $this->Ispfw_infinite_scroll_advanced_setting();
 
@@ -107,15 +108,29 @@ class Ispfw_Infinite_Woo_Public
 
 	public function Ispfw_infinite_scroll_setting()
 	{
-		$settings = get_option('infinite_sp_woo_inf_basics');
+		$basic_settings = get_option('infinite_sp_woo_inf_basics');
+
+		if( is_array( $basic_settings ) ) {
+			$settings  = $basic_settings;
+		} else {
+			$settings  = unserialize( $basic_settings);
+		}
+
 		return $settings;
 	}
 
 	public function Ispfw_infinite_scroll_advanced_setting()
 	{
-		$settings = get_option('infinite_sp_woo_inf_color');
+		$color_settings = get_option('infinite_sp_woo_inf_color');
+
+		if( is_array( $color_settings ) ) {
+			$settings  = $color_settings;
+		} else {
+			$settings  = unserialize( $color_settings);
+		}
 		return $settings;
 	}
+
 
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
